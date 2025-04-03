@@ -2,6 +2,8 @@
 
 A JavaScript module for connecting your game to the [Vibeverse](https://x.com/hashtag/vibeverse). This module enables seamless transitions between different 3D experiences while preserving player avatars and state.
 
+![image](https://github.com/user-attachments/assets/602013a8-f4eb-4e43-9a0e-f0e36c843327)
+
 https://github.com/user-attachments/assets/5408048d-c1ea-4b20-909c-226d45c66461
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
