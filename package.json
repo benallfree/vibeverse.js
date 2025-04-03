@@ -3,21 +3,29 @@
   "version": "1.0.0",
   "description": "A JavaScript module for creating interconnected 3D web game portals with Three.js",
   "type": "module",
-  "main": "vibeverse.js",
+  "main": "./dist/vibeverse.js",
+  "module": "./dist/vibeverse.js",
+  "types": "./dist/vibeverse.d.ts",
   "exports": {
     ".": {
-      "import": "./vibeverse.js",
-      "types": "./vibeverse.d.ts"
+      "import": "./dist/vibeverse.js",
+      "types": "./dist/vibeverse.d.ts"
+    },
+    "./debug": {
+      "import": "./dist/vibeverse.debug.js",
+      "types": "./dist/vibeverse.d.ts"
     }
   },
   "files": [
-    "vibeverse.js",
-    "vibeverse.d.ts",
+    "dist",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "format": "prettier --write ."
   },
   "keywords": [
     "three.js",
@@ -33,6 +41,24 @@
     "three": ">=0.150.0"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.28.1"
+    "@changesets/cli": "^2.28.1",
+    "@types/three": "^0.175.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.4.0",
+    "type-fest": "^4.39.1",
+    "typescript": "^5.8.2"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false,
+    "trailingComma": "es5",
+    "printWidth": 120,
+    "tabWidth": 2,
+    "useTabs": false,
+    "plugins": [
+      "prettier-plugin-organize-imports"
+    ]
   }
 }
