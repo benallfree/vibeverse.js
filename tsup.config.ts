@@ -1,3 +1,5 @@
+import { copyFileSync } from 'fs'
+import { join } from 'path'
 import { defineConfig } from 'tsup'
 
 export default defineConfig([
@@ -18,6 +20,10 @@ export default defineConfig([
         js: '"use client";',
       }
       return options
+    },
+    onSuccess: async () => {
+      copyFileSync('llm.md', join('dist', 'llm.md'))
+      return Promise.resolve()
     },
   },
   {
@@ -42,6 +48,10 @@ export default defineConfig([
         js: '"use client";',
       }
       return options
+    },
+    onSuccess: async () => {
+      copyFileSync('llm.md', join('dist', 'llm.md'))
+      return Promise.resolve()
     },
   },
 ])
