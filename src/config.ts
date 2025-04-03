@@ -34,7 +34,7 @@ const DEFAULT_VIBEVERSE_OPTIONS: VibeverseOptions = {
 }
 
 // Helper to compute portal positions based on root position and portal radii
-const computePortalPositions = (
+const computeSideBySidePortalPositions = (
   rootPosition: THREE.Vector3,
   enterRadius: number,
   exitRadius: number
@@ -43,8 +43,8 @@ const computePortalPositions = (
   const spacing = Math.max(enterRadius, exitRadius) * 2.5 // 2.5x radius for comfortable spacing
 
   return {
-    enter: new THREE.Vector3(rootPosition.x - spacing, rootPosition.y, rootPosition.z),
-    exit: new THREE.Vector3(rootPosition.x + spacing, rootPosition.y, rootPosition.z),
+    enter: new THREE.Vector3(rootPosition.x + spacing, rootPosition.y, rootPosition.z),
+    exit: new THREE.Vector3(rootPosition.x - spacing, rootPosition.y, rootPosition.z),
   }
 }
 
@@ -100,7 +100,7 @@ export function computeVibeverseOptions(options?: PartialDeep<VibeverseOptions>)
 
   // Compute portal positions if not explicitly set
   if (!options?.enter?.position && !options?.exit?.position) {
-    const positions = computePortalPositions(baseOptions.position, enterOptions.radius, exitOptions.radius)
+    const positions = computeSideBySidePortalPositions(baseOptions.position, enterOptions.radius, exitOptions.radius)
 
     enterOptions.position = positions.enter
     exitOptions.position = positions.exit
