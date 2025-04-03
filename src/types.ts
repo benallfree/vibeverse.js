@@ -77,5 +77,5 @@ export interface VibeverseInstance {
     startPortal: Group | null
   }
   update: () => void
-  createHUDPortals: Navigation
+  createHUDPortals: () => Navigation
 }

@@ -72,11 +72,12 @@ export function vibeverse(
   }
 
   // Initialize navigation
-  const createHUDPortals = createNavigation({
-    portalUrl: computedOptions.username
-      ? `https://portal.pieter.com?username=${computedOptions.username}`
-      : 'https://portal.pieter.com',
-  })
+  const createHUDPortals = () =>
+    createNavigation({
+      portalUrl: computedOptions.username
+        ? `https://portal.pieter.com?username=${computedOptions.username}`
+        : 'https://portal.pieter.com',
+    })
 
   // Creates both start and exit portals
   const createInGamePortals = (): {
