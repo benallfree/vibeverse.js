@@ -1,6 +1,6 @@
 {
   "name": "vibeverse.js",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A JavaScript module for creating interconnected 3D web game portals with Three.js",
   "type": "module",
   "main": "./dist/vibeverse.js",
