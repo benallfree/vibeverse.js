@@ -41,6 +41,17 @@ export function vibeverse(
   player: THREE.Object3D,
   options?: PartialDeep<VibeverseOptions>
 ): VibeverseInstance {
+  // Validate required parameters
+  if (!scene || !(scene instanceof THREE.Scene)) {
+    throw new Error('vibeverse: scene must be a valid THREE.Scene')
+  }
+  if (!camera || !(camera instanceof THREE.Camera)) {
+    throw new Error('vibeverse: camera must be a valid THREE.Camera')
+  }
+  if (!player || !(player instanceof THREE.Object3D)) {
+    throw new Error('vibeverse: player must be a valid THREE.Object3D')
+  }
+
   const computedOptions = computeVibeverseOptions(options)
 
   const state: VibeverseState = {
