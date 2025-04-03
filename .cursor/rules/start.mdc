@@ -8,3 +8,4 @@ alwaysApply: true
 * must be compatible with browser esm imports
 * readme.md and llm.md should both stay in sync and up to date with code
 * readme.md should refer to llm.md for detailed API 
+* always leave the llm.md markdown frontmatter

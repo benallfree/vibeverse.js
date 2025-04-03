@@ -1,3 +1,9 @@
+---
+description: Vibeverse.js API Documentation
+globs:
+alwaysApply: true
+---
+
 # Vibeverse.js API Documentation
 
 ## Overview
@@ -63,11 +69,7 @@ You can use either or both methods depending on your needs:
 update: () => void
 ```
 
-Updates portal state. Should be called in your game loop.
-
-#### navigation
-
-A navigation component that provides UI elements for portal interaction.
+Allow vibeverse to perform frame-based updates such as portal collision detection. Should be called in your game loop.
 
 ## Configuration Options
 
@@ -79,6 +81,7 @@ The `VibeverseOptions` interface includes:
 - `lookAt`: THREE.Euler - Base rotation for portals (default: 0,π,0)
 - `username`: string - User identifier (default: '')
 - `warpConfig`: WarpConfig | null - Configuration for warp effect
+- `avatarConfig`: AvatarConfig - Configuration for avatar loading and handling
 
 ### Portal-Specific Options
 
@@ -87,8 +90,20 @@ Each portal (enter/exit) can be configured with:
 - `label`: string - Portal label text
 - `color`: string - Portal color (hex)
 - `radius`: number - Portal size
-- `position`: THREE.Vector3 - Portal position
-- `lookAt`: THREE.Euler - Portal rotation
+- `position`: THREE.Vector3 - Portal position (optional, will be computed if not provided)
+- `lookAt`: THREE.Euler - Portal rotation (optional, will inherit from root if not provided)
+
+Default portal settings:
+
+- Enter portal: Red (#ff0000), radius 6, label "Go back"
+- Exit portal: Green (#00ff00), radius 6, label "To Vibeverse"
+
+### Avatar Configuration
+
+The `avatarConfig` options include:
+
+- `useBottomOrigin`: boolean - Whether to align avatars from their bottom (default: false)
+- `allowedDomains`: string[] - List of allowed domains for avatar loading (default: ['vibatar.ai'])
 
 ## Warp Effect Configuration
 
@@ -96,19 +111,28 @@ The warp effect can be customized with the following options:
 
 ```typescript
 interface WarpConfig {
-  lineCount: number // Number of lines in the effect
-  pointsPerLine: number // Points per line
-  tunnelRadius: number // Base tunnel radius
-  tunnelExpansion: number // How much tunnel expands
-  minSpeed: number // Minimum line speed
-  speedVariation: number // Random speed variation
-  oscillationSpeed: number // Wave oscillation speed
-  minSpeedFactor: number // Minimum speed factor
-  lineLength: number // Length of each line
-  resetDistance: number // Distance before reset
-  resetOffset: number // Reset offset
-  cameraSpeed: number // Camera movement speed
-  cameraAcceleration: number // Camera acceleration
+  // Line configuration
+  lineCount: number // Number of lines in the effect (default: 1000)
+  pointsPerLine: number // Points per line (default: 8)
+  lineLength: number // Length of each line (default: 3)
+
+  // Tunnel configuration
+  tunnelRadius: number // Base tunnel radius (default: 2)
+  tunnelExpansion: number // How much tunnel expands (default: 0.5)
+
+  // Animation configuration
+  minSpeed: number // Minimum line speed (default: 0.8)
+  speedVariation: number // Random speed variation (default: 0.2)
+  oscillationSpeed: number // Wave oscillation speed (default: 2)
+  minSpeedFactor: number // Minimum speed factor (default: 0.5)
+
+  // Reset configuration
+  resetDistance: number // Distance before reset (default: 20)
+  resetOffset: number // Reset offset (default: 20)
+
+  // Camera configuration
+  cameraSpeed: number // Camera movement speed (default: 2.0)
+  cameraAcceleration: number // Camera acceleration (default: 0.1)
 }
 ```
 
@@ -122,6 +146,13 @@ When users enter through a portal, the following URL parameters are available:
 - `avatar`: Player's avatar URL or Vibatar.ai username
 - `color`: Avatar color preference
 
+## Navigation
+
+The navigation system uses the following default URLs:
+
+- Portal URL: https://portal.pieter.com
+- Navigation UI appears in the bottom-left corner of the screen
+
 ## Helper Functions
 
 ### isVibeverse()
@@ -131,6 +162,14 @@ function isVibeverse(): boolean
 ```
 
 Returns true if the user is coming from a Vibeverse portal.
+
+## Debug Build
+
+For development purposes, a debug build is available that includes source maps:
+
+```typescript
+import { vibeverse } from 'vibeverse.js/debug'
+```
 
 ## Example Usage
 
@@ -146,10 +185,14 @@ const vibeverseInstance = vibeverse(scene, camera, player, {
     tunnelRadius: 2,
     // ... other warp config options
   },
+  avatarConfig: {
+    useBottomOrigin: false,
+    allowedDomains: ['vibatar.ai'],
+  },
 })
 
 // Create portals
-const { exitPortal, startPortal } = vibeverseInstance.createPortals()
+const { exitPortal, startPortal } = vibeverseInstance.createInGamePortals()
 
 // In your game loop
 function gameLoop() {

@@ -13,9 +13,12 @@ https://github.com/user-attachments/assets/5408048d-c1ea-4b20-909c-226d45c66461
 - 🎮 Create portal connections between 3D web experiences
 - 🎨 Customizable portal visuals with particle effects
 - 🌟 Configurable warp transition effect
-- 👤 Avatar persistence across experiences
+- 👤 Avatar persistence across experiences with Vibatar.ai integration
 - 🔄 Automatic portal state management
 - 🎵 Smart audio handling for browser autoplay policies
+- 🔍 Debug build available for development
+- 🎯 Side-by-side portal positioning with automatic spacing
+- 🎨 Customizable portal colors, labels, and sizes
 
 ## Installation
 
@@ -31,7 +34,11 @@ Directly in your HTML (recommended):
   }
 </script>
 <script type="module">
+  // Production build
   import { vibeverse } from 'https://cdn.jsdelivr.net/npm/vibeverse.js/+esm'
+
+  // Debug build with source maps
+  import { vibeverse } from 'https://cdn.jsdelivr.net/npm/vibeverse.js@latest/dist/vibeverse.debug.js'
 </script>
 ```
 
@@ -43,6 +50,8 @@ npm install vibeverse.js three
 
 ```ts
 import { vibeverse } from 'vibeverse.js'
+// For development with source maps:
+import { vibeverse } from 'vibeverse.js/debug'
 ```
 
 ## Quick Start
@@ -58,6 +67,10 @@ const vibeverseInstance = vibeverse(scene, camera, player, {
     pointsPerLine: 8,
     tunnelRadius: 2,
     // ... other warp config options
+  },
+  avatarConfig: {
+    useBottomOrigin: false,
+    allowedDomains: ['vibatar.ai'],
   },
 })
 
@@ -78,7 +91,7 @@ function gameLoop() {
 
 For detailed API documentation, including all available options, methods, and configuration settings, please refer to [llm.md](llm.md).
 
-> 💡 **Tip for LLM IDEs**: If you're using an LLM-powered IDE (like Cursor), consider adding `llm.md` to your IDE's rules or RAG system. This will help the AI better understand the Vibeverse.js API and provide more accurate code suggestions and completions.
+> 💡 **Tip for LLM IDEs**: If you're using an LLM-powered IDE (like Cursor), consider copying `dist/llm.md` to your IDE's rules or RAG system. This will help the AI better understand the Vibeverse.js API and provide more accurate code suggestions and completions.
 
 ## Dependencies
 
