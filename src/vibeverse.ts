@@ -4,7 +4,6 @@ import { computeVibeverseOptions } from './config'
 import { createNavigation } from './navigation'
 import { checkPortalCollisions, createExitPortal, createStartPortal } from './portal'
 import type { VibeverseInstance, VibeverseOptions, VibeverseState } from './types'
-import { stopWarpEffect } from './warpEffect'
 
 // Helper to check if user is coming from Vibeverse
 export function isVibeverse(): boolean {
@@ -37,6 +36,7 @@ export function vibeverse(
   const state: VibeverseState = {
     scene,
     camera,
+    player,
     warpConfig: computedOptions.warpConfig,
     options: computedOptions,
     startPortal: null,
@@ -51,14 +51,14 @@ export function vibeverse(
   }
 
   // Initialize navigation
-  const navigation = createNavigation({
+  const createHUDPortals = createNavigation({
     portalUrl: computedOptions.username
       ? `https://portal.pieter.com?username=${computedOptions.username}`
       : 'https://portal.pieter.com',
   })
 
   // Creates both start and exit portals
-  const createPortals = (): {
+  const createInGamePortals = (): {
     exitPortal: THREE.Group
     startPortal: THREE.Group | null
   } => {
@@ -78,22 +78,12 @@ export function vibeverse(
 
   // Updates portal state
   const update = (): void => {
-    // No need to update collision boxes every frame, we update them in checkPortalCollisions
-  }
-
-  // Toggles the warp effect on/off
-  const toggleWarpEffect = (enable: boolean): void => {
-    state.enableWarpEffect = enable
-    if (!enable) {
-      stopWarpEffect(state)
-    }
+    checkPortalCollisions(state)
   }
 
   return {
-    createPortals,
-    checkPortalCollisions: (player) => checkPortalCollisions(state, player),
+    createInGamePortals,
     update,
-    toggleWarpEffect,
-    navigation,
+    createHUDPortals,
   }
 }

@@ -26,24 +26,36 @@ function vibeverse(
 
 Returns a `VibeverseInstance` object with the following methods:
 
-#### createPortals()
+#### createInGamePortals()
 
 ```typescript
-createPortals: () => {
+createInGamePortals: () => {
   exitPortal: THREE.Group,
   startPortal: THREE.Group | null
 }
 ```
 
-Creates both exit and start portals in the scene. The start portal only appears when the user is coming from another Vibeverse experience.
+Creates 3D portal objects in your game scene. The exit portal is always created, while the start portal only appears when the user is coming from another Vibeverse experience. Use this method when you want to create physical portal objects that players can interact with in your 3D world.
 
-#### checkPortalCollisions()
+#### createHUDPortals()
 
 ```typescript
-checkPortalCollisions: (player: { position: Vector3 }) => void
+createHUDPortals: () => Navigation
 ```
 
-Checks for collisions between the player and portals. Should be called in your game loop.
+Creates UI elements for portal interaction that overlay your game view. This is useful when you want to provide a more traditional UI-based navigation experience, separate from the 3D world portals. The HUD portals will appear as overlay elements that players can click to navigate.
+
+Returns a `Navigation` object with:
+
+- `element`: The HTML element containing the navigation UI
+- `show()`: Function to show the navigation UI
+- `hide()`: Function to hide the navigation UI
+
+You can use either or both methods depending on your needs:
+
+- Use `createInGamePortals()` for immersive 3D portal experiences where players physically move through portals in your game world
+- Use `createHUDPortals()` for traditional UI-based navigation that doesn't require 3D portal objects
+- Use both when you want to support both interaction methods
 
 #### update()
 
@@ -52,14 +64,6 @@ update: () => void
 ```
 
 Updates portal state. Should be called in your game loop.
-
-#### toggleWarpEffect()
-
-```typescript
-toggleWarpEffect: (enable: boolean) => void
-```
-
-Toggles the warp transition effect on/off.
 
 #### navigation
 
@@ -149,12 +153,7 @@ const { exitPortal, startPortal } = vibeverseInstance.createPortals()
 
 // In your game loop
 function gameLoop() {
-  vibeverseInstance.checkPortalCollisions(player)
   vibeverseInstance.update()
   requestAnimationFrame(gameLoop)
 }
 ```
-
-## Dependencies
-
-- Three.js >= 0.150.0

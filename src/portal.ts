@@ -178,10 +178,10 @@ const animateExitPortal = (state: VibeverseState): void => {
 }
 
 // Checks for player collisions with portals
-export const checkPortalCollisions = (state: VibeverseState, player: { position: THREE.Vector3 }): void => {
-  if (!player) return
+export const checkPortalCollisions = (state: VibeverseState): void => {
+  if (!state.player) return
 
-  const playerPosition = new THREE.Vector3(player.position.x, player.position.y, player.position.z)
+  const playerPosition = new THREE.Vector3(state.player.position.x, state.player.position.y, state.player.position.z)
 
   if (state.startPortalBox && state.startPortal) {
     state.startPortalBox.setFromObject(state.startPortal)

@@ -1,15 +1,4 @@
-import type {
-  Box3,
-  BufferGeometry,
-  Camera,
-  Euler,
-  Group,
-  LineSegments,
-  Matrix4,
-  Quaternion,
-  Scene,
-  Vector3,
-} from 'three'
+import type { Box3, Camera, Euler, Group, LineSegments, Object3D, Scene, Vector3 } from 'three'
 
 // Configuration for the warp effect
 export interface WarpConfig {
@@ -57,6 +46,7 @@ export interface Navigation {
 export interface VibeverseState {
   scene: Scene
   camera: Camera
+  player: Object3D
   warpConfig: WarpConfig | null
   options: VibeverseOptions
   startPortal: Group | null
@@ -72,7 +62,7 @@ export interface VibeverseState {
 
 // Interface for the Vibeverse instance
 export interface VibeverseInstance {
-  createPortals: (
+  createInGamePortals: (
     x?: number,
     y?: number,
     z?: number,
@@ -82,33 +72,6 @@ export interface VibeverseInstance {
     exitPortal: Group
     startPortal: Group | null
   }
-  checkPortalCollisions: (player: { position: Vector3 }) => void
   update: () => void
-  toggleWarpEffect: (enable: boolean) => void
-  navigation: Navigation
-}
-
-// Extend Three.js types
-declare module 'three' {
-  interface Object3DUserData {
-    particlesGeometry?: BufferGeometry
-    type?: 'entrance' | 'exit'
-    portal?: Group
-    velocities?: Float32Array
-    timingOffsets?: Float32Array
-    basePosition?: Vector3
-    transformedPosition?: Vector3
-    matrix?: Matrix4
-    startTime?: number
-  }
-
-  interface Group {
-    position: Vector3
-    rotation: Euler
-    quaternion: Quaternion
-  }
-
-  interface Mesh {
-    position: Vector3
-  }
+  createHUDPortals: Navigation
 }
