@@ -5,6 +5,8 @@ A JavaScript module for connecting your game to the [Vibeverse](https://x.com/ha
 https://github.com/user-attachments/assets/5408048d-c1ea-4b20-909c-226d45c66461
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![npm](https://img.shields.io/npm/dm/vibeverse.js.svg)](https://www.npmjs.com/package/vibeverse.js)
+[![GitHub stars](https://img.shields.io/github/stars/benallfree/vibeverse.js.svg?style=social&label=Stars)](https://github.com/benallfree/vibeverse.js)
 
 ## Features
 
