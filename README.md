@@ -19,22 +19,36 @@ https://github.com/user-attachments/assets/5408048d-c1ea-4b20-909c-226d45c66461
 
 ## Installation
 
-```bash
-npm install vibeverse.js
-```
-
-Or use directly in your HTML:
+Directly in your HTML (recommended):
 
 ```html
-<script type="module">
-  import { vibeverse } from 'https://unpkg.com/vibeverse.js@latest'
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three/+esm",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three/examples/jsm/"
+    }
+  }
 </script>
+<script type="module">
+  import { vibeverse } from 'https://cdn.jsdelivr.net/npm/vibeverse.js/+esm'
+</script>
+```
+
+Or from a package manager:
+
+```bash
+npm install vibeverse.js three
+```
+
+```ts
+import { vibeverse } from 'vibeverse.js'
 ```
 
 ## Quick Start
 
 ```typescript
-import { vibeverse } from 'vibeverse.js'
+import { vibeverse } from 'https://cdn.jsdelivr.net/npm/vibeverse.js/+esm'
 
 // Initialize Vibeverse
 const vibeverseInstance = vibeverse(scene, camera, player, {
