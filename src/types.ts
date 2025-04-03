@@ -66,13 +66,7 @@ export interface VibeverseState {
 
 // Interface for the Vibeverse instance
 export interface VibeverseInstance {
-  createInGamePortals: (
-    x?: number,
-    y?: number,
-    z?: number,
-    radius?: number,
-    options?: VibeverseOptions
-  ) => {
+  createInGamePortals: () => {
     exitPortal: Group
     startPortal: Group | null
   }
