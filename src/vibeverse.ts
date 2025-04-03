@@ -98,7 +98,7 @@ export function vibeverse(
     }
   }
 
-  // Updates portal state
+  // Allow vibeverse to perform frame-based updates such as portal collision detection
   const update = (): void => {
     checkPortalCollisions(state)
   }
