@@ -13,7 +13,7 @@ export async function loadAndSwapAvatar(state: VibeverseState, avatarUrlOrUserna
 
   // Check if URL is allowed
   if (!isAllowedDomain(avatarUrl, allowedDomains)) {
-    console.warn(`Avatar URL ${avatarUrl} is not from an allowed domain`)
+    console.warn(`Avatar URL ${avatarUrl} is not from an allowed domain. Allowed domains: ${allowedDomains.join(', ')}`)
     return
   }
 
