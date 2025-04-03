@@ -33,6 +33,10 @@ export interface VibeverseOptions {
   lookAt: Euler
   username: string
   warpConfig: WarpConfig | null
+  avatarConfig: {
+    useBottomOrigin: boolean
+    allowedDomains: string[]
+  }
 }
 
 // Navigation component interface

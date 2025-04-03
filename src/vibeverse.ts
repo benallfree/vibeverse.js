@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { PartialDeep } from 'type-fest'
+import { loadAndSwapAvatar } from './avatar'
 import { computeVibeverseOptions } from './config'
 import { createNavigation } from './navigation'
 import { checkPortalCollisions, createExitPortal, createStartPortal } from './portal'
@@ -10,10 +11,14 @@ export function isVibeverse(): boolean {
   return !!refUrl()
 }
 
+export const getQueryParam = (param: string): string | null => {
+  const params = new URLSearchParams(window.location.search)
+  return params.get(param)
+}
+
 // Gets the referring URL from URL parameters
 const refUrl = (): string | null => {
-  const params = new URLSearchParams(window.location.search)
-  const refUrl = params.get('ref')
+  const refUrl = getQueryParam('ref')
   if (refUrl) {
     let url = refUrl
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
@@ -22,6 +27,11 @@ const refUrl = (): string | null => {
     return url
   }
   return null
+}
+
+// Gets the avatar URL or username from URL parameters
+const getAvatarFromUrl = (): string | null => {
+  return getQueryParam('avatar')
 }
 
 // Creates a new Vibeverse instance
@@ -79,6 +89,12 @@ export function vibeverse(
   // Updates portal state
   const update = (): void => {
     checkPortalCollisions(state)
+  }
+
+  // Load avatar if specified in URL
+  const avatarUrlOrUsername = getAvatarFromUrl()
+  if (avatarUrlOrUsername) {
+    loadAndSwapAvatar(state, avatarUrlOrUsername)
   }
 
   return {

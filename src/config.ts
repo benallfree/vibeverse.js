@@ -10,6 +10,10 @@ const DEFAULT_VIBEVERSE_OPTIONS: VibeverseOptions = {
   lookAt: new THREE.Euler(0, Math.PI, 0),
   username: '',
   warpConfig: DEFAULT_WARP_CONFIG,
+  avatarConfig: {
+    useBottomOrigin: false,
+    allowedDomains: ['vibatar.ai'],
+  },
 
   // Portal-specific defaults that only apply if not overridden by root
   enter: {
@@ -69,6 +73,10 @@ export function computeVibeverseOptions(options?: PartialDeep<VibeverseOptions>)
     lookAt: createEuler(options?.lookAt),
     username: options?.username ?? '',
     warpConfig: mergeWarpConfig(options?.warpConfig),
+    avatarConfig: {
+      useBottomOrigin: options?.avatarConfig?.useBottomOrigin ?? DEFAULT_VIBEVERSE_OPTIONS.avatarConfig.useBottomOrigin,
+      allowedDomains: options?.avatarConfig?.allowedDomains ?? DEFAULT_VIBEVERSE_OPTIONS.avatarConfig.allowedDomains,
+    },
   }
 
   // Create portal options with proper THREE.js objects
