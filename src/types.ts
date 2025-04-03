@@ -1,4 +1,5 @@
 import type { Box3, Camera, Euler, Group, LineSegments, Object3D, Scene, Vector3 } from 'three'
+import type { Event } from './event'
 
 // Configuration for the warp effect
 export interface WarpConfig {
@@ -46,6 +47,11 @@ export interface Navigation {
   hide: () => void
 }
 
+export type AvatarChangedEvent = {
+  player: Object3D
+  avatarUrlOrUsername: string
+}
+
 // Interface for the Vibeverse state
 export interface VibeverseState {
   scene: Scene
@@ -62,6 +68,8 @@ export interface VibeverseState {
   isWarping: boolean
   cameraDirection: Vector3
   currentCameraSpeed: number
+  onLocalAvatarChanged: Event<AvatarChangedEvent>
+  onRemoteAvatarChanged: Event<AvatarChangedEvent>
 }
 
 // Interface for the Vibeverse instance
@@ -72,4 +80,7 @@ export interface VibeverseInstance {
   }
   update: () => void
   createHUDPortals: () => Navigation
+  swapAvatar: (targetPlayer: Object3D, avatarUrlOrUsername: string) => Promise<void>
+  onLocalAvatarChanged: (callback: (event: AvatarChangedEvent) => void) => () => void
+  onRemoteAvatarChanged: (callback: (event: AvatarChangedEvent) => void) => () => void
 }

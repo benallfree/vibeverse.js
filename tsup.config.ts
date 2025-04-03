@@ -23,6 +23,7 @@ export default defineConfig([
     },
     onSuccess: async () => {
       copyFileSync('llm.md', join('dist', 'llm.md'))
+      console.log('llm.md copied to dist')
       return Promise.resolve()
     },
   },
@@ -51,6 +52,7 @@ export default defineConfig([
     },
     onSuccess: async () => {
       copyFileSync('llm.md', join('dist', 'llm.md'))
+      console.log('llm.md copied to dist')
       return Promise.resolve()
     },
   },

@@ -5,7 +5,11 @@ import { alignObject, scaleToFitBoundingBox } from './utils/three'
 import { isAllowedDomain, isUrl, usernameToVibatarUrl } from './utils/url'
 
 // Main function to load and swap avatar
-export async function loadAndSwapAvatar(state: VibeverseState, avatarUrlOrUsername: string): Promise<void> {
+export async function loadAndSwapAvatar(
+  state: VibeverseState,
+  targetPlayer: THREE.Object3D,
+  avatarUrlOrUsername: string
+): Promise<void> {
   const { allowedDomains, useBottomOrigin } = state.options.avatarConfig
 
   // Convert username to URL if needed
@@ -29,7 +33,7 @@ export async function loadAndSwapAvatar(state: VibeverseState, avatarUrlOrUserna
     }
 
     // Store original player's bounding box
-    const originalBox = new THREE.Box3().setFromObject(state.player)
+    const originalBox = new THREE.Box3().setFromObject(targetPlayer)
 
     // Scale new avatar to fit original player's size
     scaleToFitBoundingBox(newAvatar, originalBox)
@@ -38,14 +42,24 @@ export async function loadAndSwapAvatar(state: VibeverseState, avatarUrlOrUserna
     alignObject(newAvatar, useBottomOrigin)
 
     // Hide all children of original player
-    state.player.traverse((child) => {
+    targetPlayer.traverse((child) => {
       if (child instanceof THREE.Object3D) {
         child.visible = false
       }
     })
 
     // Add new avatar as child of player
-    state.player.add(newAvatar)
+    targetPlayer.add(newAvatar)
+
+    // Trigger events
+    const event = { player: targetPlayer, avatarUrlOrUsername }
+
+    // Only trigger local event if this is the local player
+    if (targetPlayer === state.player) {
+      state.onLocalAvatarChanged[1](event)
+    } else {
+      state.onRemoteAvatarChanged[1](event)
+    }
   } catch (error) {
     console.error('Failed to load avatar:', error)
   }

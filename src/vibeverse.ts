@@ -2,9 +2,10 @@ import * as THREE from 'three'
 import { PartialDeep } from 'type-fest'
 import { loadAndSwapAvatar } from './avatar'
 import { computeVibeverseOptions } from './config'
+import { createEvent } from './event'
 import { createNavigation } from './navigation'
 import { checkPortalCollisions, createExitPortal, createStartPortal } from './portal'
-import type { VibeverseInstance, VibeverseOptions, VibeverseState } from './types'
+import type { AvatarChangedEvent, VibeverseInstance, VibeverseOptions, VibeverseState } from './types'
 
 // Helper to check if user is coming from Vibeverse
 export function isVibeverse(): boolean {
@@ -69,6 +70,8 @@ export function vibeverse(
     isWarping: false,
     cameraDirection: new THREE.Vector3(),
     currentCameraSpeed: 0,
+    onLocalAvatarChanged: createEvent<AvatarChangedEvent>(),
+    onRemoteAvatarChanged: createEvent<AvatarChangedEvent>(),
   }
 
   // Initialize navigation
@@ -106,12 +109,16 @@ export function vibeverse(
   // Load avatar if specified in URL
   const avatarUrlOrUsername = getAvatarFromUrl()
   if (avatarUrlOrUsername) {
-    loadAndSwapAvatar(state, avatarUrlOrUsername)
+    loadAndSwapAvatar(state, player, avatarUrlOrUsername)
   }
 
   return {
     createInGamePortals,
     update,
     createHUDPortals,
+    swapAvatar: (targetPlayer: THREE.Object3D, avatarUrlOrUsername: string) =>
+      loadAndSwapAvatar(state, targetPlayer, avatarUrlOrUsername),
+    onLocalAvatarChanged: state.onLocalAvatarChanged[0],
+    onRemoteAvatarChanged: state.onRemoteAvatarChanged[0],
   }
 }

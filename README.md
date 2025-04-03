@@ -87,16 +87,87 @@ function gameLoop() {
 }
 ```
 
-## API Documentation
+## MMO Integration
 
-For detailed API documentation, including all available options, methods, and configuration settings, please refer to [llm.md](llm.md).
+Vibeverse.js provides events for avatar changes that can be used to synchronize avatars across multiple players in an MMO scenario.
 
-> 💡 **Tip for LLM IDEs**: If you're using an LLM-powered IDE (like Cursor), consider copying `dist/llm.md` to your IDE's rules or RAG system. This will help the AI better understand the Vibeverse.js API and provide more accurate code suggestions and completions.
+### Broadcasting Local Avatar Changes
 
-## Dependencies
+When a local player's avatar changes, you can broadcast it to other players:
 
-- Three.js >= 0.150.0
+```typescript
+const vv = vibeverse(scene, camera, localPlayer, options)
 
-## License
+// Listen for local avatar changes and broadcast them
+vv.onLocalAvatarChanged((event) => {
+  // Assuming you have a socket connection
+  socket.emit('avatar:changed', {
+    playerId: localPlayer.id, // Your game's player ID system
+    avatarUrl: event.avatarUrlOrUsername,
+  })
+})
+```
 
-MIT License - see LICENSE file for details
+### Receiving Remote Avatar Changes
+
+On the receiving end, listen for avatar changes from other players:
+
+```typescript
+const vv = vibeverse(scene, camera, localPlayer, options)
+
+// Listen for remote avatar changes
+vv.onRemoteAvatarChanged((event) => {
+  // This event is triggered when remote players change their avatars
+  // Useful for UI updates, logging, etc.
+  console.log(`Remote player ${event.player.id} changed avatar to ${event.avatarUrlOrUsername}`)
+})
+
+// Handle incoming socket messages
+socket.on('avatar:changed', (data) => {
+  // Get the remote player object using your game's player management system
+  const remotePlayer = getRemotePlayerObjectBySocketId(data.playerId)
+  if (remotePlayer) {
+    // Load the new avatar for the remote player
+    vv.swapAvatar(remotePlayer, data.avatarUrl)
+  }
+})
+```
+
+### Complete MMO Example
+
+Here's a more complete example showing how to integrate with a typical MMO setup:
+
+```typescript
+// In your game's main file
+const vv = vibeverse(scene, camera, localPlayer, options)
+
+// When a player joins
+socket.on('player:join', (data) => {
+  // Create remote player object
+  const remotePlayer = createPlayerObject(data.position)
+
+  // If they have an avatar, load it
+  if (data.avatar) {
+    vv.swapAvatar(remotePlayer, data.avatar)
+  }
+})
+
+// Listen for local avatar changes to broadcast
+vv.onLocalAvatarChanged((event) => {
+  socket.emit('avatar:changed', {
+    playerId: localPlayer.id,
+    avatarUrl: event.avatarUrlOrUsername,
+  })
+})
+
+// Listen for remote avatar changes
+vv.onRemoteAvatarChanged((event) => {
+  console.log(`Remote player ${event.player.id} changed avatar`)
+})
+
+// When a player leaves
+socket.on('player:leave', (data) => {
+  // Your game's cleanup logic
+  removePlayer(data.playerId)
+})
+```

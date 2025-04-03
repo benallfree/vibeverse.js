@@ -71,6 +71,64 @@ update: () => void
 
 Allow vibeverse to perform frame-based updates such as portal collision detection. Should be called in your game loop.
 
+#### swapAvatar()
+
+```typescript
+swapAvatar: (targetPlayer: THREE.Object3D, avatarUrlOrUsername: string) => Promise<void>
+```
+
+Load and swap an avatar onto any player object. This can be used for both local and remote players.
+
+- `targetPlayer`: The THREE.Object3D to apply the avatar to
+- `avatarUrlOrUsername`: Either a direct URL to a GLB file or a username that will be converted to a Vibatar.ai URL
+
+The avatar will be scaled to match the target player's size and aligned according to the avatarConfig settings.
+
+#### onAvatarChanged()
+
+```typescript
+onAvatarChanged: (callback: (player: THREE.Object3D, avatarUrlOrUsername: string) => void) => () => void
+```
+
+Register a callback that will be called whenever any player's avatar is loaded or changed.
+
+- `callback`: Function that receives the player object and the avatar URL/username
+- Returns: An unsubscribe function that removes the callback when called
+
+Multiple callbacks can be registered and will all be called when an avatar changes.
+
+#### onLocalAvatarChanged()
+
+```typescript
+onLocalAvatarChanged: (callback: (player: THREE.Object3D, avatarUrlOrUsername: string) => void) => () => void
+```
+
+Register a callback that will be called specifically when the local player's avatar is loaded or changed.
+
+- `callback`: Function that receives the player object and the avatar URL/username
+- Returns: An unsubscribe function that removes the callback when called
+
+Multiple callbacks can be registered and will all be called when the local avatar changes. This is useful for broadcasting local avatar changes to other players in an MMO scenario.
+
+Example usage:
+
+```typescript
+const vv = vibeverse(scene, camera, player, options)
+
+// Register callbacks
+const unsubscribe1 = vv.onAvatarChanged((player, avatarUrl) => {
+  console.log(`Player ${player.id} changed avatar to ${avatarUrl}`)
+})
+
+const unsubscribe2 = vv.onLocalAvatarChanged((player, avatarUrl) => {
+  socket.emit('avatar:changed', { avatarUrl })
+})
+
+// Later, when you want to stop listening:
+unsubscribe1()
+unsubscribe2()
+```
+
 ## Configuration Options
 
 The `VibeverseOptions` interface includes:
