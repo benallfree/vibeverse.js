@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import type { VibeverseState } from './types'
 import { alignObject, scaleToFitBoundingBox } from './utils/three'
 import { isAllowedDomain, isUrl, usernameToVibatarUrl } from './utils/url'
