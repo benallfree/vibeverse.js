@@ -19,6 +19,7 @@ https://github.com/user-attachments/assets/5408048d-c1ea-4b20-909c-226d45c66461
 - 🔍 Debug build available for development
 - 🎯 Side-by-side portal positioning with automatic spacing
 - 🎨 Customizable portal colors, labels, and sizes
+- ⚡ Automatic avatar loading throttling to prevent browser overload
 
 ## Installation
 
@@ -71,6 +72,7 @@ const vibeverseInstance = vibeverse(scene, camera, player, {
   avatarConfig: {
     useBottomOrigin: false,
     allowedDomains: ['vibatar.ai'],
+    maxConcurrent: 5, // Maximum number of concurrent avatar loads
   },
 })
 
@@ -115,13 +117,6 @@ On the receiving end, listen for avatar changes from other players:
 ```typescript
 const vv = vibeverse(scene, camera, localPlayer, options)
 
-// Listen for remote avatar changes
-vv.onRemoteAvatarChanged((event) => {
-  // This event is triggered when remote players change their avatars
-  // Useful for UI updates, logging, etc.
-  console.log(`Remote player ${event.player.id} changed avatar to ${event.avatarUrlOrUsername}`)
-})
-
 // Handle incoming socket messages
 socket.on('avatar:changed', (data) => {
   // Get the remote player object using your game's player management system
@@ -147,6 +142,7 @@ socket.on('player:join', (data) => {
   const remotePlayer = createPlayerObject(data.position)
 
   // If they have an avatar, load it
+  // Vibeverse automatically throttles concurrent avatar loads to prevent browser overload
   if (data.avatar) {
     vv.swapAvatar(remotePlayer, data.avatar)
   }

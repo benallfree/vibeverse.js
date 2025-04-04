@@ -162,6 +162,7 @@ The `avatarConfig` options include:
 
 - `useBottomOrigin`: boolean - Whether to align avatars from their bottom (default: false)
 - `allowedDomains`: string[] - List of allowed domains for avatar loading (default: ['vibatar.ai'])
+- `maxConcurrent`: number - Maximum number of concurrent avatar loads (default: 5). This helps prevent overwhelming the browser when many avatars need to be loaded simultaneously.
 
 ## Warp Effect Configuration
 

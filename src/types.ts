@@ -37,6 +37,7 @@ export interface VibeverseOptions {
   avatarConfig: {
     useBottomOrigin: boolean
     allowedDomains: string[]
+    maxConcurrent: number
   }
 }
 

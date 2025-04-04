@@ -13,6 +13,7 @@ const DEFAULT_VIBEVERSE_OPTIONS: VibeverseOptions = {
   avatarConfig: {
     useBottomOrigin: false,
     allowedDomains: ['vibatar.ai'],
+    maxConcurrent: 5,
   },
 
   // Portal-specific defaults that only apply if not overridden by root
@@ -76,6 +77,7 @@ export function computeVibeverseOptions(options?: PartialDeep<VibeverseOptions>)
     avatarConfig: {
       useBottomOrigin: options?.avatarConfig?.useBottomOrigin ?? DEFAULT_VIBEVERSE_OPTIONS.avatarConfig.useBottomOrigin,
       allowedDomains: options?.avatarConfig?.allowedDomains ?? DEFAULT_VIBEVERSE_OPTIONS.avatarConfig.allowedDomains,
+      maxConcurrent: options?.avatarConfig?.maxConcurrent ?? DEFAULT_VIBEVERSE_OPTIONS.avatarConfig.maxConcurrent,
     },
   }
 
