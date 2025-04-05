@@ -89,6 +89,15 @@ function gameLoop() {
 }
 ```
 
+## Documentation
+
+For detailed API documentation and implementation guides, please refer to the following files in the `@llm` directory:
+
+- [`vibeverse-api.md`](llm/vibeverse-api.md): Comprehensive API documentation including all available methods, configuration options, and examples
+- [`cloudflare-ssg-do.md`](llm/cloudflare-ssg-do.md): Implementation guide for deploying Vibeverse.js games using Cloudflare Workers, Durable Objects, and Static Site Generation with Bun
+
+These documents provide in-depth technical details and best practices for integrating Vibeverse.js into your applications.
+
 ## MMO Integration
 
 Vibeverse.js provides events for avatar changes that can be used to synchronize avatars across multiple players in an MMO scenario.
