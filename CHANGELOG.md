@@ -1,5 +1,16 @@
 # vibeverse.js
 
+## 0.2.0
+
+### Minor Changes
+
+- f0c4afe: Avatar change events
+
+### Patch Changes
+
+- 44b2c47: Add avatar load buffering
+- c508bde: Add LLM for CF deployment
+
 ## 0.1.0
 
 ### Minor Changes

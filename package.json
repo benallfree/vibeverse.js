@@ -1,6 +1,6 @@
 {
   "name": "vibeverse.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A JavaScript module for creating interconnected 3D web game portals with Three.js",
   "author": {
     "name": "Ben Allfree",
